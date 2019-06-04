@@ -1,2 +1,0 @@
-npm install -g
-npm WARN checkPermissions Missing write access to /usr/local/lib/node_modules
