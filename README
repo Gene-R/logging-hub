@@ -1,3 +1,7 @@
+This is a case study project for reactive programming with kafka streams.
+The current README file is just my working notes. 
+Project related  README will be submitted once the project is completed.
+
 public vs private keys
 public key is a "padlock" - can be safely distributed to number of remote machine
 provite key is a "KEY" you use to open "padlock" (public key) - is kept privately on local compute only
