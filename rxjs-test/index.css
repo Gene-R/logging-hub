@@ -1,0 +1,27 @@
+body {
+    font-family: "Arial";
+    background: rgb(176, 170, 177);
+  }
+  ul {
+    list-style-type: none;
+    padding: 10px;
+  }
+  li {
+    padding: 15px;
+    background: rgb(185, 213, 226);
+    margin-bottom: 10px;
+  }
+
+  #randomN {
+    color: red;
+  }
+
+  #timestamp1{
+   background-color: black;
+   color: yellow;
+  }
+
+  #timestamp2{
+    background-color: blue;
+    color: yellow;
+  }

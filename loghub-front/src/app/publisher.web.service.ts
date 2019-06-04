@@ -23,7 +23,7 @@ export class PublisherWebService {
 
           this.eventSource.onmessage = event => {
             const log = JSON.parse(event.data);
-            this.logs.push(new Log(log['key'], log['level'], log['record']));
+            this.logs.push(new Log(log.key, log.level, log.record));
             this.subscriber.next(this.logs);
           };
 
@@ -49,7 +49,7 @@ export class PublisherWebService {
 
   closeEvenerSource() {
     if (this.eventSource != null) {
-      this.eventSource.close;
+      this.eventSource.close();
       this.eventSource = null;
     }
     if (this.subscriber != null) {

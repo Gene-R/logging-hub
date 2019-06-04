@@ -3,7 +3,7 @@ import { interval, Observable, Observer, concat, merge, forkJoin } from 'rxjs';
 import { distinctUntilChanged, map, scan } from 'rxjs/operators';
 import { Log } from './log';
 import { PublisherWebService } from './publisher.web.service';
-import { join } from 'path';
+
 
 @Component({
   selector: 'app-logs',

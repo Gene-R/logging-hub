@@ -49,7 +49,7 @@ public class DbService implements InitializingBean {
 			receiver.subscribe(r -> {
 				this.repository.save(new Log(r.value()));
 				r.receiverOffset().acknowledge();
-				System.out.println("RCV ACK (" + r.offset() + "): " + r.value());
+				System.out.println("DB RCV ACK (" + r.offset() + "): " + r.value());
 			});
 
 		} catch (Exception ex) {

@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "E:\\JAVA\\eclipse-workspace2\\rxjs-test"
 		}
 	],
 	"settings": {
