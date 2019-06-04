@@ -1,0 +1,14 @@
+{
+    "properties": [
+        {
+            "name": "loghub.kafka.regExpTopics",
+            "type": "java.lang.String",
+            "description": "The regular expression for kafka topics to subscribe'"
+        },
+        {
+            "name": "loghub.kafka.servers",
+            "type": "java.lang.String",
+            "description": "The list of server:port for kafka cluster'"
+        }
+    ]
+}

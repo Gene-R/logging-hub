@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Chrome with loghub-front",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/loghub-front",
+            "sourceMapPathOverrides": {
+                "webpack:/*": "${webRoot}/*"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Producer",
+            "request": "launch",
+            "mainClass": "gene.logginghub.producer.MainApp",
+            "projectName": "logginghub-producer",
+            "args": [
+                "--servers",
+                "localhost:9092",
+                "--topic",
+                "test123",
+                "--path",
+                "/tmp/a.out"
+            ]
+        },
+        {
+            "type": "java",
+            "name": "Consumer",
+            "request": "launch",
+            "mainClass": "gene.logginghub.consumer.MainApp",
+            "projectName": "logginghub-consumer"
+        }
+        //Debug (Launch)-MainApp<logginghub-consumer>
+        //Debug (Launch) logginghub-producer
+    ]
+}

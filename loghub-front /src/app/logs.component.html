@@ -1,0 +1,36 @@
+<div>
+    <div>
+        <div>Current time: {{ time | async }}</div>
+        <div>Random events: {{ rndStream | async | json }}</div>
+        <button class="button" (click)="mergeStreams()">Database</button>
+        <!-- <button class="button" (click)="connect2kafka()">Kafka</button> -->
+
+        <div>
+            <label>Selected log: </label>{{selectedLog| json}}
+        </div>
+
+        <table id="logs">
+            <colgroup>
+                <col style="width:30%">
+                <col style="width:10%">
+                <col style="width:60%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Log Key</th>
+                    <th>Src IP addr</th>
+                    <th>User ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let log of kafkaStream | async" [class.success]="log === selectedLog"
+                    (click)="onSelect(log)">
+                    <td>{{log.key.logId}}</td>
+                    <td>{{log.key.ipAddr}}</td>
+                    <td>{{log.key.userId}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
