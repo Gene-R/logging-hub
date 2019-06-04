@@ -1,0 +1,131 @@
+https://github.com/Gene-R/logging-hub.git
+
+######################################################
+https://kafka.apache.org/documentation/streams/
+Kafka - KStream, KTable, KGroupedTable ???
+Serdes - Serialzier/Deserialized ???
+
+
+Simple MVC app with templates and Thymeleaf
+https://spring.io/guides/gs/serving-web-content/
+
+
+About Thymeleaf is a modern server-side Java template engine for both web and standalone environments, capable of processing HTML, XML, JavaScript, CSS and even plain text.
+https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html
+
+Cassandra query examples:
+https://www.programcreek.com/java-api-examples/index.php?api=org.springframework.data.cassandra.repository.Query
+
+About arguments in Spring boot
+https://www.baeldung.com/spring-boot-command-line-arguments
+
+About error handling in Spring REST
+https://www.baeldung.com/exception-handling-for-rest-with-spring
+
+
+Eclispe
+Alt-Shift-X,M  - to call Maven build
+Alt-Shift-D,B - to debug Boot app
+
+git archive --format zip --output log-consolidator.zip master
+
+# to specify custom app properties file
+# https://www.baeldung.com/properties-with-spring
+java -jar app.jar --spring.config.location=classpath:/another-location.properties
+
+
+Cassandra
+https://docs.datastax.com/en/cql/3.3/cql/cql_using/useSimplePrimaryKeyConcept.html
+https://www.javatpoint.com/cassandra-create-table
+
+Create key space:
+CREATE KEYSPACE IF NOT EXISTS logconsolidator WITH REPLICATION = {'class':'SimpleStrategy', 'replication_factor' : 3}; 
+
+CREATE TABLE log (
+   id bigint PRIMARY KEY, 
+   topic text,  
+   type text,  
+   value text,
+   srchost text,
+   userid text,
+   path text
+   );   
+
+-----------------------------------------------
+CREATE TABLE logconsolidator.log (
+    id bigint PRIMARY KEY,
+    path text,
+    srchost text,
+    topic text,
+    type text,
+    userid text,
+    value text
+) WITH bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = ''
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.1
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+--------------------------------------------------
+CREATE TABLE log (
+    path text, 
+    user text, 
+    ip text, 
+    logid timeuuid, 
+    level text, 
+    record text, 
+    PRIMARY KEY ((path,user),logid) ) 
+    WITH CLUSTERING ORDER BY (logid DESC) 
+    AND caching = {'keys':'ALL', 'rows_per_partition':'50'};
+
+----------------------------------------------
+CREATE TABLE logconsolidator.log (
+    user_id text,
+    ip_addr text,
+    log_path text,
+    log_id timeuuid,
+    log_level text,
+    log_msg text,
+    PRIMARY KEY ((log_path,user_id, ip_addr), log_id)
+) WITH CLUSTERING ORDER BY (log_id DESC)
+    AND caching = {'keys':'ALL', 'rows_per_partition':'50'};
+
+------------------------------------------
+
+COPY log (id, topic, type, srchost,userid ,value) TO '/home/gene/JAVA/cassandra-log.csv';
+ -- create index on type column to avoid using ALLOW FILTERING:
+CREATE INDEX type_ind ON log (type);
+
+
+insert into log
+
+mvn clean install spring-boot:run
+
+
+java -jar logginghub-producer-1.0.0.jar  --servers soft-update:9092 --topic topic1 --path /PATCHES/AS/udir/gf/nodes/scc_localhost_SOFTUPD/suplus_0/logs/server.log
+
+
+
+
+
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+
+Wed May 22 15:44:09 EDT 2019
+There was an unexpected error (type=Internal Server Error, status=500).
+Circular view path [greeting]: would dispatch back to the current handler URL [/greeting] again. Check your ViewResolver setup! (Hint: This may be the result of an unspecified view, due to default view name generation.)
+
+
+
+1) Start cassandra
+2) Start zookeeper and kafka cluster
+3) Start producer
+4) Start consumer
+
