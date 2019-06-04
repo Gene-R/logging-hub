@@ -1,12 +1,10 @@
-This is a case study project for reactive programming with kafka streams.
-The current README file is just my working notes. 
-Project related  README will be submitted once the project is completed.
+https://github.com/Gene-R/logging-hub.git
 
-public vs private keys
-public key is a "padlock" - can be safely distributed to number of remote machine
-provite key is a "KEY" you use to open "padlock" (public key) - is kept privately on local compute only
+This is a case study project for reactive programming with kafka streams and cassandra db for storing 'warehouse' logging data.
+The current README file is just my working notes that won't probably make much sence for other people. 
+Once the project is completed (it ~60% now), I will submit a proper README with instructions and details how to setup kafka cluster, cassandra db, producers, consumers and fron-end angular web app that uses rxjs.
 
-
+########################################################################
 https://kafka.apache.org/documentation/streams/
 Kafka - KStream, KTable, KGroupedTable ???
 Serdes - Serialzier/Deserialized ???
