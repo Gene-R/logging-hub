@@ -1,12 +1,14 @@
-import { interval, Observable, Observer } from 'rxjs';
-import { distinctUntilChanged, map, scan, tap } from 'rxjs/operators';
+import { interval, Observable, Observer, of} from 'rxjs';
+import { distinctUntilChanged, map, scan } from 'rxjs/operators';
 
-var fixedStream = Observable.create((observer: any) => {
-  for(let i=0; i < 5; i++){
-    observer.next("i = " + i);
-  }
-  observer.complete();
-});
+// var fixedStream = Observable.create((observer: any) => {
+//   for(let i=0; i < 5; i++){
+//     observer.next("i = " + i);
+//   }
+//   observer.complete();
+// });
+
+var fixedStream = of(1,2,3,4).pipe(map(n => 'k=' + n));
 
 fixedStream.subscribe(
   (msg: any) => msgHandler(msg),

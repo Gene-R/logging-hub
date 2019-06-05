@@ -1,7 +1,7 @@
 {
-  "name": "rxjs-test",
+  "name": "car-racing-game",
   "version": "1.0.0",
-  "main": "test01.js",
+  "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development"
   },
