@@ -2,7 +2,8 @@ body {
     font-family: "Arial";
     background: rgb(176, 170, 177);
   }
-  ul {
+  
+  /* ul {
     list-style-type: none;
     padding: 10px;
   }
@@ -10,7 +11,7 @@ body {
     padding: 15px;
     background: rgb(185, 213, 226);
     margin-bottom: 10px;
-  }
+  } */
 
   #randomN {
     color: red;
@@ -24,4 +25,32 @@ body {
   #timestamp2{
     background-color: blue;
     color: yellow;
+  }
+
+  #items {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 800px;
+  }
+  
+  #items td, #items th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    cursor: crosshair;
+  }
+  
+  #items tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  #items tr:hover {
+    background-color: #dd0;
+  }
+  
+  #items th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
   }
