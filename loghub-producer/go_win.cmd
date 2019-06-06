@@ -1,4 +1,4 @@
-date >> E:/tmp/a.out
+rem date >> E:/tmp/a.out
 
 #LOG_FILE=/home/gene/JAVA/apache-cassandra-3.11.4/logs/debug.log
 #LOG_FILE=/home/gene/eclipse/jee-2019-03/eclipse/configuration/org.eclipse.oomph.setup/setup.log
