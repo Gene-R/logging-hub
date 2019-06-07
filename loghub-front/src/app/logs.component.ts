@@ -3,13 +3,13 @@ import { interval, Observable, Observer, concat, merge, forkJoin } from 'rxjs';
 import { distinctUntilChanged, map, scan } from 'rxjs/operators';
 import { Log } from './log';
 import { PublisherWebService } from './publisher.web.service';
-
+import { CounterComponent } from './counter.component';
 
 @Component({
   selector: 'app-logs',
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.css'],
-  providers: [PublisherWebService]
+  providers: [PublisherWebService, CounterComponent]
 })
 export class LogsComponent implements OnInit {
   private baseUrl = 'http://localhost:8085/query/';
@@ -19,11 +19,15 @@ export class LogsComponent implements OnInit {
   kafkaStream: Observable<Array<Log>>;
   dbStream: Observable<Array<Log>>;
 
+  constructor(public counter: CounterComponent) {}
+
   kafkaService: PublisherWebService = new PublisherWebService(
-    this.baseUrl + 'kafka'
+    this.baseUrl + 'kafka',
+    this.counter
   );
   dbService: PublisherWebService = new PublisherWebService(
-    this.baseUrl + this.limit
+    this.baseUrl + this.limit,
+    this.counter
   );
 
   rndStream: Observable<number> = interval(200).pipe(
@@ -36,8 +40,6 @@ export class LogsComponent implements OnInit {
     setInterval(() => observer.next(new Date().toString()), 1000);
   });
 
-  constructor() {}
-
 
   onSelect(log: Log): void {
     this.selectedLog = log;
@@ -47,12 +49,13 @@ export class LogsComponent implements OnInit {
   ngOnInit(): void {
     console.log('ngOnInit() is called');
     this.kafkaStream = this.kafkaService.getObservable(false);
-    //this.kafkaStream = this.dbService.getObservable(true);
+    // this.kafkaStream = this.dbService.getObservable(true);
   }
 
   mergeStreams(): void {
     this.dbStream = this.dbService.getObservable(true);
     this.kafkaStream = merge(this.kafkaStream, this.dbStream);
+    this.counter.increment();
   }
 
   public getLogsStream() {

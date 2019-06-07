@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
 import { Log } from './log';
+import { CounterComponent } from './counter.component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class PublisherWebService {
   subscriber: Subscriber<Array<Log>> = null;
   logs: Log[];
 
-  constructor(private srvUrl: string) {}
+  constructor(private srvUrl: string, private counter: CounterComponent) {}
 
   getObservable(usenew: boolean): Observable<Array<Log>> {
     this.logs = [];
@@ -22,6 +23,7 @@ export class PublisherWebService {
           this.eventSource = new EventSource(this.srvUrl);
 
           this.eventSource.onmessage = event => {
+            this.counter.increment(); // each processed message should increase app global counter in the store
             const log = JSON.parse(event.data);
             this.logs.push(new Log(log.key, log.level, log.record));
             this.subscriber.next(this.logs);

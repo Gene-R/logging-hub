@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LogsComponent } from './logs.component';
 
 describe('LogsComponent', () => {
@@ -8,9 +7,8 @@ describe('LogsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LogsComponent ]
-    })
-    .compileComponents();
+      declarations: [LogsComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +18,12 @@ describe('LogsComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    // expect(component).toBeTruthy();
+    expect(component).not.toBeNull();
+  });
+
+  it('is not null', () => {
+    // expect(component).toBeTruthy();
+    expect(component).not.toBeNull();
   });
 });

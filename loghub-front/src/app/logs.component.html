@@ -1,8 +1,9 @@
 <div>
     <div>
+        <app-counter></app-counter>
         <div>Current time: {{ time | async }}</div>
         <div>Random events: {{ rndStream | async | json }}</div>
-        <button class="button" (click)="mergeStreams()">Database</button>
+        <button class="button" (click)="mergeStreams()">Database:{{ counter.count$ | async }}</button>
         <!-- <button class="button" (click)="connect2kafka()">Kafka</button> -->
 
         <div>
