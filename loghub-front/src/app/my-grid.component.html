@@ -1,0 +1,35 @@
+
+<div>
+<button (click)="getSelectedRows()">Get Selected Rows</button>
+<button (click)="updateGrid()">Update grid</button>
+</div>
+
+<ag-grid-angular 
+    #agGrid
+    style="width: 800px; height: 300px;" 
+    class="ag-theme-balham"
+    [pagination]="true"
+    [paginationPageSize]=5
+    [enableSorting]="true"
+    rowSelection="multiple"
+    [enableFilter]="true"
+    [rowData]="rowData | async" 
+    [columnDefs]="columnDefs"
+    (gridReady)="onGridReady($event)"
+    [getRowNodeId]="getRowNodeId"
+    (modelUpdated)="onModelUpdated()"
+    >
+</ag-grid-angular>
+
+
+<!-- <ag-grid-angular
+   id="myGrid"
+   class="ag-theme-balham"
+   [columnDefs]="columnDefs"
+   [defaultColDef]="defaultColDef"
+   [enableRangeSelection]="true"
+   [getRowNodeId]="getRowNodeId"
+   [rowData]="rowData"
+   (gridReady)="onGridReady($event)"
+   >
+</ag-grid-angular> -->

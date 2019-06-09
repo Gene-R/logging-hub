@@ -11,15 +11,23 @@ import { LogsComponent } from './logs.component';
 import { PublisherWebService } from './publisher.web.service';
 import { CounterComponent } from './counter.component';
 
+import { AgGridModule } from 'ag-grid-angular';
+import { MyGridComponent } from './my-grid.component';
+import { DemoGridComponent } from './demo.grid.component';
+
 @NgModule({
     declarations: [
         AppComponent,
         LogsComponent,
-        CounterComponent
+        DemoGridComponent,
+        CounterComponent,
+        MyGridComponent
     ],
     imports: [
         BrowserModule,
-        StoreModule.forRoot({ count: counterReducer })
+        StoreModule.forRoot({ count: counterReducer }),
+        AgGridModule.withComponents([]),
+        HttpClientModule
     ],
     providers: [
         PublisherWebService

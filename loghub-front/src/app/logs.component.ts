@@ -5,18 +5,23 @@ import { Log } from './log';
 import { PublisherWebService } from './publisher.web.service';
 import { CounterComponent } from './counter.component';
 
+
+//https://www.ag-grid.com/angular-getting-started/
+
 @Component({
   selector: 'app-logs',
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.css'],
   providers: [PublisherWebService, CounterComponent]
 })
+
+
 export class LogsComponent implements OnInit {
   private baseUrl = 'http://localhost:8085/query/';
   public limit = 3;
 
   public selectedLog: Log;
-  kafkaStream: Observable<Array<Log>>;
+  logs: Observable<Array<Log>>;
   dbStream: Observable<Array<Log>>;
 
   constructor(public counter: CounterComponent) {}
@@ -48,17 +53,17 @@ export class LogsComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('ngOnInit() is called');
-    this.kafkaStream = this.kafkaService.getObservable(false);
+    this.logs = this.kafkaService.getObservable();
     // this.kafkaStream = this.dbService.getObservable(true);
   }
 
   mergeStreams(): void {
-    this.dbStream = this.dbService.getObservable(true);
-    this.kafkaStream = merge(this.kafkaStream, this.dbStream);
+    this.dbStream = this.dbService.getObservable();
+    this.logs = merge(this.logs, this.dbStream);
     this.counter.increment();
   }
 
   public getLogsStream() {
-    return this.kafkaStream;
+    return this.logs;
   }
 }

@@ -1,1 +1,2 @@
-java -jar target/logginghub-consumer-1.0.0.jar --server.port=8085
+#java -jar target/logginghub-consumer-1.0.0.jar --server.port=8085
+java -jar ./target/logginghub-consumer-1.0.0.jar --spring.config.location=linux.properties

@@ -1,4 +1,6 @@
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store} from '@ngrx/store';
 
 import { CounterComponent } from './counter.component';
 
@@ -19,7 +21,7 @@ describe('CounterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', async(() => {
+  it('should create 1111', async(() => {
     expect(component).toBeTruthy();
   }));
 });

@@ -17,7 +17,7 @@ describe('LogsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create AAA', () => {
     // expect(component).toBeTruthy();
     expect(component).not.toBeNull();
   });

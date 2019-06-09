@@ -1,0 +1,10 @@
+<ag-grid-angular
+id="myGrid"
+class="ag-theme-balham"
+[columnDefs]="columnDefs"
+[defaultColDef]="defaultColDef"
+[enableRangeSelection]="true"
+[getRowNodeId]="getRowNodeId"
+[rowData]="rowData"
+(gridReady)="onGridReady($event)"
+></ag-grid-angular>

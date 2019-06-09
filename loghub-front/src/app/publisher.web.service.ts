@@ -12,40 +12,47 @@ export class PublisherWebService {
   subscriber: Subscriber<Array<Log>> = null;
   logs: Log[];
 
-  constructor(private srvUrl: string, private counter: CounterComponent) {}
+  constructor(private srvUrl: string, private counter: CounterComponent) { }
 
-  getObservable(usenew: boolean): Observable<Array<Log>> {
+  getObservable(): Observable<Array<Log>> {
     this.logs = [];
-    if (this.observable == null || usenew) {
-      this.observable = new Observable(subscriber => {
-        try {
-          this.subscriber = subscriber;
-          this.eventSource = new EventSource(this.srvUrl);
+    this.observable = new Observable(subscriber => {
+      try {
+        this.subscriber = subscriber;
+        this.eventSource = new EventSource(this.srvUrl);
 
-          this.eventSource.onmessage = event => {
+        this.eventSource.onmessage = event => {
+          if (this.counter != null) {
             this.counter.increment(); // each processed message should increase app global counter in the store
-            const log = JSON.parse(event.data);
-            this.logs.push(new Log(log.key, log.level, log.record));
-            this.subscriber.next(this.logs);
-          };
+          }
+          const log = JSON.parse(event.data);
+          let l: Log = new Log(log.key, log.level, log.record);
+          this.logs.push(l);
+          this.subscriber.next(this.logs);
+          console.log('getObservable: ' + l);
+        };
 
-          this.eventSource.onerror = err => {
-            switch (this.eventSource.readyState) {
-              case 0:
-                this.eventSource.close();
-                this.eventSource = null;
-                subscriber.complete();
-                break;
-              default:
-                subscriber.error('EventSource error: ' + err);
-                console.log('EventSource error: ', err);
-            }
-          };
-        } catch (err) {
-          console.log.apply('Could not get observable: ' + err);
-        }
-      });
-    }
+
+        this.eventSource.onerror = err => {
+          switch (this.eventSource.readyState) {
+            case 0:
+              this.eventSource.close();
+              this.eventSource = null;
+              subscriber.complete();
+              break;
+            default:
+              subscriber.error('EventSource error: ' + err);
+              console.log('EventSource error: ', err);
+          }
+        };
+
+
+
+      } catch (err) {
+        console.log.apply('Could not get observable: ' + err);
+      }
+    });
+
     return this.observable;
   }
 
