@@ -14,6 +14,7 @@ import { CounterComponent } from './counter.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { MyGridComponent } from './my-grid.component';
 import { DemoGridComponent } from './demo.grid.component';
+import { MyInputComponent } from './my-input.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { DemoGridComponent } from './demo.grid.component';
         LogsComponent,
         DemoGridComponent,
         CounterComponent,
-        MyGridComponent
+        MyGridComponent,
+        MyInputComponent
     ],
     imports: [
         BrowserModule,

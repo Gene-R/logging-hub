@@ -1,0 +1,23 @@
+.button1  {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    /* text-decoration: none; */
+    /* display: inline-block; */
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: crosshair;
+    width: 130px
+}
+
+.button1:hover {
+   color: yellow;
+   font-weight: bold;
+}
+
+.button1:active {
+    color: red;
+    font-weight: bold;
+ }

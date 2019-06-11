@@ -1,7 +1,10 @@
 
+<app-my-input></app-my-input>
+
 <div>
-<button (click)="getSelectedRows()">Get Selected Rows</button>
-<button (click)="updateGrid()">Update grid</button>
+<button class="button1" (click)="getSelectedRows()">Get Selected Rows</button>
+<button class="button1" (click)="updateGrid()">Load</button>
+<button class="button1" (click)="resetGrid()">Clean</button>
 </div>
 
 <ag-grid-angular 
@@ -9,12 +12,13 @@
     style="width: 800px; height: 300px;" 
     class="ag-theme-balham"
     [pagination]="true"
-    [paginationPageSize]=5
+    [paginationPageSize]=50
     [enableSorting]="true"
     rowSelection="multiple"
     [enableFilter]="true"
-    [rowData]="rowData | async" 
+    [rowData]="logs" 
     [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
     (gridReady)="onGridReady($event)"
     [getRowNodeId]="getRowNodeId"
     (modelUpdated)="onModelUpdated()"

@@ -5,6 +5,8 @@ import { PublisherWebService } from './publisher.web.service';
 import { HttpClient } from '@angular/common/http';
 import { AgGridAngular } from 'ag-grid-angular';
 import { LogPrimaryKey } from './log-primary-key';
+import { RowNode } from 'ag-grid-community';
+import { MyInputComponent } from './my-input.component';
 
 
 
@@ -22,15 +24,9 @@ export class MyGridComponent implements OnInit {
 
   private gridApi;
   private gridColumnApi;
+  private limit: MyInputComponent;
 
   private baseUrl = 'http://localhost:8085/query/';
-  public limit = 5;
-
-  //rowData: Observable<Array<Log>>;
-  //dbService: PublisherWebService;
-
-
-
 
   columnDefs = [
     { headerName: 'logId', field: 'key.logId', checkboxSelection: true },
@@ -39,89 +35,78 @@ export class MyGridComponent implements OnInit {
     { headerName: 'record', field: 'record' }
   ];
 
+  defaultColDef = {
+    editable: true,
+    resizable: true
+  };
+
+  //////////////////
+
+  logs: Array<Log> = [];
+  
+  getRowNodeId = function (data) {
+    return data.key.logId;
+  };
 
 
-  // rowData = [
-  //   { make: 'Toyota', model: 'Celica', price: 35000 },
-  //   { make: 'Ford', model: 'Mondeo', price: 32000 },
-  //   { make: 'Porsche', model: 'Boxter', price: 72000 }
-  // ];  
+  constructor(private http: HttpClient) {}
+  
+  ngOnInit(): void {}
 
 
-  //rowData: Observable<Log[]>;
-  rowData: any;
-  getRowNodeId;
-
-
-  constructor(private http: HttpClient) { 
-    this.getRowNodeId = function(data) {
-      return data.key.logId;
-    };
-
+  resetGrid() {
+    this.logs = [];
+    this.gridApi.setRowData(this.logs);
   }
-  ngOnInit(): void {
-    //this.dbService = new PublisherWebService(this.baseUrl + this.limit, null);
-    //this.rowData = this.dbService.getObservable();
-    this.rowData = this.http.get('http://localhost:8085/query/15');
-    
-    //this.rowData = new PublisherWebService(this.baseUrl + this.limit, null).getObservable();
-  }
-
 
   updateGrid() {
     // var rowNode = this.gridApi.getRowNode("dcb66ab0-8aef-11e9-b93a-970391a1e8c1");
     // var newPrice = Math.floor(Math.random() * 100000);
-    //
-      let svc : PublisherWebService = new PublisherWebService(this.baseUrl + 3, null);
-      svc.getObservable().subscribe();
-      this.gridApi.setRowData(svc.logs);
 
-    //
-    // rowNode.setDataValue("key.ipAddr", newPrice);
+    let observable = new Observable(subscriber => {
+      let eventSource = new EventSource(this.baseUrl + this.limit.inData);
+
+      eventSource.onmessage = event => {
+        const log = JSON.parse(event.data);
+        let l: Log = new Log(log.key, log.level, log.record);
+        this.logs.push(l);
+        subscriber.next(this.logs);
+        console.log('getObservable: ' + l);
+        this.gridApi.setRowData(this.logs);
+      };
+
+      eventSource.onerror = err => {
+        switch (eventSource.readyState) {
+          case 0:
+            eventSource.close();
+            subscriber.complete();
+            break;
+          default:
+            subscriber.error('EventSource error: ' + err);
+            console.log('EventSource error: ', err);
+        }
+      }
+    });
+
+    observable.subscribe();
   }
 
-
   onModelUpdated() {
-    
     console.log('onModelUpdated()');
   }
 
   onGridReady(params) {
-    console.log('onGridReady() ...');        
+    console.log('onGridReady() ...');
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-
-
-//    const updates$ = new PublisherWebService(this.baseUrl + 'kafka', null).getObservable();
-//    updates$.subscribe(updates => params.api.updateRowData({ update: updates }));
-
-    //params.api.sizeColumnsToFit();
-
-
-    //let mockServer = createMockServer();
-    //let mockServer = new PublisherWebService(this.baseUrl + this.limit, null);
-//    this.rowData = mockServer.getObservable();
     console.log('onGridReady() ...');
-    //params.api.setRowData(this.rowData);
 
-    //const updates$ = mockServer.byRowupdates();
-    // this.rowData.subscribe(data => {
-    //      params.api.setRowData(data);
-    //     //updates$.subscribe(updates => params.api.updateRowData({ update: updates }));
-    // });
   }
-
-
-  // { headerName: 'logId', field: 'key.logId', checkboxSelection: true },
-  // { headerName: 'ipAddr', field: 'key.ipAddr' },
-  // { headerName: 'userId', field: 'key.userId', editable: true },
-  // { headerName: 'record', field: 'record' }
-
   getSelectedRows() {
-    const selectedNodes = this.agGrid.api.getSelectedNodes();
-    const selectedData: Log[] = selectedNodes.map(node => 
+    const selNodes: RowNode[] = this.agGrid.api.getSelectedNodes();
+    const selLogs: Log[] = selNodes.map(node =>
       new Log(new LogPrimaryKey('logpat1', node.data.key.userId, node.data.key.ipAddr, node.data.key.logId), 'DEBUG', node.data.record));
-    const selectedDataStringPresentation = selectedData.map(node => 
+    const selectedDataStringPresentation = selLogs.map(node =>
       node.key.logId + ' ' + node.key.ipAddr + ' ' + node.key.userId + ' ' + node.record).join(', ');
     alert(`Selected nodes: ${selectedDataStringPresentation}`);
   }
