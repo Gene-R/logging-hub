@@ -8,6 +8,12 @@
             "script": "ng",
             "path": "loghub-front/",
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "build",
+            "path": "loghub-front/",
+            "problemMatcher": []
         }
     ]
 }
