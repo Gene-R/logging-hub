@@ -21,3 +21,9 @@
     color: red;
     font-weight: bold;
  }
+
+ .button1:disabled {
+    background-color: gray;
+    color: black;
+    font-weight: normal;
+ }

@@ -1,5 +1,6 @@
 <div>
-<!-- <input #inData (keyup.enter)="onDataInput(inData)"> -->
-<input type="text" class="form-control" id="myInput" [(ngModel)]="inData" name="myInput">
+    <input (keyup)="onKey($event)" >
+    <!-- <input #box (keyup.enter)="onEnter(box.inData)"> -->
+    <p>http://localhost:8085/query/{{inData}}</p>
 </div>
 

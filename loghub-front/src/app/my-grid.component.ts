@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Log } from './log';
 import { PublisherWebService } from './publisher.web.service';
@@ -21,10 +21,15 @@ import { MyInputComponent } from './my-input.component';
 export class MyGridComponent implements OnInit {
 
   @ViewChild('agGrid', null) agGrid: AgGridAngular;
+  @ViewChild(MyInputComponent,null) limit: MyInputComponent;
+  loadInProgress:boolean = false;
+
 
   private gridApi;
   private gridColumnApi;
-  private limit: MyInputComponent;
+
+  
+
 
   private baseUrl = 'http://localhost:8085/query/';
 
@@ -49,7 +54,7 @@ export class MyGridComponent implements OnInit {
   };
 
 
-  constructor(private http: HttpClient) {}
+  //constructor(private http: HttpClient) {}
   
   ngOnInit(): void {}
 
@@ -64,6 +69,7 @@ export class MyGridComponent implements OnInit {
     // var newPrice = Math.floor(Math.random() * 100000);
 
     let observable = new Observable(subscriber => {
+      this.loadInProgress = true;
       let eventSource = new EventSource(this.baseUrl + this.limit.inData);
 
       eventSource.onmessage = event => {
@@ -80,10 +86,12 @@ export class MyGridComponent implements OnInit {
           case 0:
             eventSource.close();
             subscriber.complete();
+            this.loadInProgress = false;
             break;
           default:
             subscriber.error('EventSource error: ' + err);
             console.log('EventSource error: ', err);
+            this.loadInProgress = false;
         }
       }
     });

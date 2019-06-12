@@ -7,18 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./my-input.component.css']
 })
 
-export class MyInputComponent  implements OnInit{
+export class MyInputComponent implements OnInit {
 
+  inData = '';
 
-  inData;
-  
-  ngOnInit(){
-    this.inData = 10;
+  onKey(event: KeyboardEvent) {
+    this.inData = (<HTMLInputElement>event.target).value;
   }
-  
 
-  onDataInput(inData){
-    this.inData = inData;
+  onEnter(value: string) { 
+  }
+
+  ngOnInit() {
+
   }
 
 
