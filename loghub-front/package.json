@@ -24,7 +24,7 @@
     "ag-grid": "^18.1.2",
     "ag-grid-angular": "^21.0.1",
     "ag-grid-community": "^21.0.1",
-    "eventsource": "^1.0.7",
+    "eventsource": "^2.0.2",
     "rxjs": "^6.5.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
